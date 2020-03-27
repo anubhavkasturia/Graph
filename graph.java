@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class graph{
     private static class Edge{
@@ -15,7 +16,9 @@ public class graph{
     public static void main(String[] args) {
         construct();
         display();
-    }
+        // BFS(0);
+        DFS(0, new boolean[graph.size()]);
+        }
     public static void construct(){
         int n=7;
         for(int i=0;i<n;i++){
@@ -33,8 +36,8 @@ public class graph{
         addEdge(4, 6, 5);
         addEdge(5, 6, 1);
         
-        removeEdge(0, 3);
-        removeVertex(0);
+        // removeEdge(0, 3);
+        // removeVertex(0);
         
         
     // similarly add for other edges in the same way    
@@ -86,5 +89,40 @@ public class graph{
 
       }
   } 
-}
+  public static void BFS(int src){
+      LinkedList<Integer> queue=new LinkedList<>();
+      queue.add(src); // first ever element inserted in the queue
+      //keep track of visited vertices
+      
+      boolean[] visited=new boolean[graph.size()]; //?initially everything is false in the array as soon as there is a value it changes to true?
+      
+      while(queue.size()!=0){
+      int u=queue.removeFirst(); //stores the value of the element being removed from the queue so as to insert all its neighbours
+      if(!visited[u]){ //checks whether u is visited or not if not visited then only prints it 
+          System.out.println(u);
+      }
+      visited[u]=true;
 
+      for(Edge e:graph.get(u)){
+        if(!visited[e.v]){ //checks if the v value is present in the array or not if it is present it would have been marked true and hence would not allow to add again
+        queue.add(e.v); //inserts the neighbours(all)
+
+        
+        }
+      }
+
+  }
+
+}
+    public static void DFS(int src,boolean visited[]){
+        System.out.println(src);
+        visited[src]=true;
+        
+        for(Edge e:graph.get(src)){
+            if(!visited[e.v]){
+                DFS(e.v, visited);
+            }
+
+        }
+    }
+}
