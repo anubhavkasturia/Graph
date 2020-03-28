@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+
 public class graph{
     private static class Edge{
         int v;
@@ -17,8 +18,12 @@ public class graph{
         construct();
         display();
         // BFS(0);
-        DFS(0, new boolean[graph.size()]);
-        }
+        // DFS(0, new boolean[graph.size()]);
+        // System.out.println("Number of components are: "+numberOfComponents());
+        // printPath(0, 6, new boolean[graph.size()] , "0 ");    
+        printAllPath(0, 6, new boolean[graph.size()] , "0 ");    
+
+    }
     public static void construct(){
         int n=7;
         for(int i=0;i<n;i++){
@@ -35,6 +40,7 @@ public class graph{
         addEdge(4, 5, 2);
         addEdge(4, 6, 5);
         addEdge(5, 6, 1);
+        // removeEdge(3, 4);
         
         // removeEdge(0, 3);
         // removeVertex(0);
@@ -125,4 +131,45 @@ public class graph{
 
         }
     }
+
+     public static int numberOfComponents(){
+         int count=0;
+         boolean visited[]=new boolean[graph.size()];
+         for(int i=0;i<graph.size();i++){//0 1
+             
+            if(!visited[i]){
+            count++; //first time for 0 and second time for 4
+            DFS(i, visited);//0
+         }
+        
+        }
+        return count;
+     }
+
+     public static void printPath(int src,int dest,boolean[]visited,String path){
+         if(src==dest){
+             System.out.println(path);
+         }
+         visited[src]=true;
+         for(Edge e:graph.get(src)){
+             if(!visited[e.v]){
+             printPath(e.v, dest, visited, path + e.v+" ");
+            }
+        }
+
+     }
+     public static void printAllPath(int src,int dest,boolean[]visited,String path){
+        if(src==dest){
+            System.out.println(path);
+        }
+        visited[src]=true;
+        for(Edge e:graph.get(src)){
+            if(!visited[e.v]){
+            printAllPath(e.v, dest, visited, path + e.v +" ");
+           }
+       }
+       visited[src]=false;
+    }
+
+
 }
